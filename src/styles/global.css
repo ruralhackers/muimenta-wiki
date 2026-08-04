@@ -1,0 +1,420 @@
+/* Muimenta Viva Wiki — tokens e base */
+:root {
+	--color-bg: #f3efe6;
+	--color-bg-deep: #e8e1d4;
+	--color-surface: #fffef9;
+	--color-ink: #1a2620;
+	--color-ink-muted: #3d4f45;
+	--color-accent: #2f5c45;
+	--color-accent-hover: #244836;
+	--color-accent-soft: #d9e8df;
+	--color-warm: #a65a38;
+	--color-line: #d9d1c3;
+	--font-display: "Fraunces", Georgia, serif;
+	--font-body: "Source Sans 3", system-ui, sans-serif;
+	--space-xs: 0.25rem;
+	--space-sm: 0.5rem;
+	--space-md: 1rem;
+	--space-lg: 1.5rem;
+	--space-xl: 2rem;
+	--space-2xl: 3rem;
+	--radius: 4px;
+	--sidebar-w: 16.5rem;
+	--header-h: 3.5rem;
+	--prose-max: 42rem;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	font-family: var(--font-body);
+	font-size: 1.0625rem;
+	line-height: 1.65;
+	color: var(--color-ink);
+	background:
+		radial-gradient(ellipse 80% 50% at 10% 0%, rgba(47, 92, 69, 0.06), transparent 55%),
+		radial-gradient(ellipse 60% 40% at 100% 20%, rgba(166, 90, 56, 0.05), transparent 50%),
+		linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-deep) 100%);
+	background-attachment: fixed;
+	min-height: 100vh;
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: var(--color-accent);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.15em;
+}
+
+a:hover {
+	color: var(--color-accent-hover);
+}
+
+:focus-visible {
+	outline: 2px solid var(--color-accent);
+	outline-offset: 2px;
+}
+
+/* Shell: sidebar + main */
+.wiki-shell {
+	display: flex;
+	min-height: 100vh;
+}
+
+.wiki-sidebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: var(--sidebar-w);
+	z-index: 40;
+	display: flex;
+	flex-direction: column;
+	padding: var(--space-lg) var(--space-md);
+	background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+	border-right: 1px solid var(--color-line);
+	backdrop-filter: blur(8px);
+	overflow-y: auto;
+}
+
+.wiki-brand {
+	display: block;
+	margin: 0 0 var(--space-xl);
+	padding: 0 var(--space-sm);
+	font-family: var(--font-display);
+	font-size: 1.35rem;
+	font-weight: 700;
+	line-height: 1.2;
+	color: var(--color-ink);
+	text-decoration: none;
+}
+
+.wiki-brand span {
+	display: block;
+	margin-top: 0.15rem;
+	font-family: var(--font-body);
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--color-warm);
+}
+
+.wiki-nav {
+	flex: 1;
+}
+
+.nav-group {
+	margin-bottom: var(--space-lg);
+}
+
+.nav-group__label {
+	margin: 0 0 var(--space-xs);
+	padding: 0 var(--space-sm);
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--color-ink-muted);
+}
+
+.nav-group ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.nav-group a {
+	display: block;
+	padding: 0.4rem var(--space-sm);
+	color: var(--color-ink);
+	text-decoration: none;
+	border-radius: var(--radius);
+	font-weight: 500;
+}
+
+.nav-group a:hover {
+	background: var(--color-accent-soft);
+	color: var(--color-accent);
+}
+
+.nav-group a[aria-current="page"] {
+	background: var(--color-accent-soft);
+	color: var(--color-accent-hover);
+	font-weight: 700;
+}
+
+.wiki-sidebar__foot {
+	margin-top: auto;
+	padding: var(--space-md) var(--space-sm) 0;
+	font-size: 0.8rem;
+	color: var(--color-ink-muted);
+	border-top: 1px solid var(--color-line);
+}
+
+.wiki-sidebar__foot a {
+	color: var(--color-ink-muted);
+}
+
+.wiki-main {
+	flex: 1;
+	margin-left: var(--sidebar-w);
+	min-width: 0;
+}
+
+.wiki-topbar {
+	display: none;
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	align-items: center;
+	justify-content: space-between;
+	height: var(--header-h);
+	padding: 0 var(--space-md);
+	background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+	border-bottom: 1px solid var(--color-line);
+	backdrop-filter: blur(8px);
+}
+
+.wiki-topbar__brand {
+	font-family: var(--font-display);
+	font-weight: 700;
+	color: var(--color-ink);
+	text-decoration: none;
+}
+
+.nav-toggle {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 5px;
+	width: 2rem;
+	height: 2rem;
+	padding: 0;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.nav-toggle-bar {
+	display: block;
+	width: 100%;
+	height: 2px;
+	background: var(--color-ink);
+	border-radius: 1px;
+	transition: transform 0.2s, opacity 0.2s;
+}
+
+body.nav-open .nav-toggle-bar:nth-child(1) {
+	transform: translateY(7px) rotate(45deg);
+}
+body.nav-open .nav-toggle-bar:nth-child(2) {
+	opacity: 0;
+}
+body.nav-open .nav-toggle-bar:nth-child(3) {
+	transform: translateY(-7px) rotate(-45deg);
+}
+
+.wiki-content {
+	max-width: calc(var(--prose-max) + 4rem);
+	margin: 0 auto;
+	padding: var(--space-2xl) var(--space-xl);
+}
+
+.wiki-footer {
+	max-width: calc(var(--prose-max) + 4rem);
+	margin: 0 auto;
+	padding: 0 var(--space-xl) var(--space-2xl);
+	font-size: 0.9rem;
+	color: var(--color-ink-muted);
+}
+
+.wiki-footer a {
+	color: var(--color-ink-muted);
+}
+
+/* Prose */
+.prose h1 {
+	font-family: var(--font-display);
+	font-size: clamp(1.75rem, 3vw, 2.25rem);
+	font-weight: 700;
+	line-height: 1.2;
+	margin: 0 0 var(--space-md);
+	color: var(--color-ink);
+}
+
+.prose .lede {
+	font-size: 1.15rem;
+	color: var(--color-ink-muted);
+	margin: 0 0 var(--space-xl);
+	max-width: 36rem;
+}
+
+.prose h2 {
+	font-family: var(--font-display);
+	font-size: 1.35rem;
+	font-weight: 600;
+	margin: var(--space-2xl) 0 var(--space-md);
+	color: var(--color-ink);
+}
+
+.prose h3 {
+	font-size: 1.05rem;
+	font-weight: 700;
+	margin: var(--space-xl) 0 var(--space-sm);
+}
+
+.prose p {
+	margin: 0 0 var(--space-md);
+	color: var(--color-ink-muted);
+}
+
+.prose ul,
+.prose ol {
+	margin: 0 0 var(--space-md);
+	padding-left: 1.35rem;
+	color: var(--color-ink-muted);
+}
+
+.prose li {
+	margin-bottom: var(--space-xs);
+}
+
+.prose li strong {
+	color: var(--color-ink);
+}
+
+.prose blockquote {
+	margin: var(--space-lg) 0;
+	padding: var(--space-md) var(--space-lg);
+	border-left: 3px solid var(--color-accent);
+	background: color-mix(in srgb, var(--color-accent-soft) 55%, transparent);
+	color: var(--color-ink-muted);
+	font-style: italic;
+}
+
+.prose blockquote p:last-child {
+	margin-bottom: 0;
+}
+
+.prose .note {
+	margin: var(--space-lg) 0;
+	padding: var(--space-md) var(--space-lg);
+	border: 1px solid var(--color-line);
+	border-radius: var(--radius);
+	background: var(--color-surface);
+	font-size: 0.95rem;
+	color: var(--color-ink-muted);
+}
+
+.prose .note strong {
+	color: var(--color-ink);
+}
+
+/* Home section links (Anceu-style list, not dashboard cards) */
+.home-links {
+	list-style: none;
+	margin: var(--space-2xl) 0 0;
+	padding: 0;
+	border-top: 1px solid var(--color-line);
+}
+
+.home-links li {
+	border-bottom: 1px solid var(--color-line);
+}
+
+.home-links a {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: var(--space-sm) var(--space-lg);
+	align-items: baseline;
+	padding: var(--space-lg) 0;
+	color: inherit;
+	text-decoration: none;
+}
+
+.home-links a:hover .home-links__title {
+	color: var(--color-accent);
+}
+
+.home-links__title {
+	font-family: var(--font-display);
+	font-size: 1.2rem;
+	font-weight: 600;
+	color: var(--color-ink);
+}
+
+.home-links__desc {
+	grid-column: 1;
+	margin: 0;
+	font-size: 0.95rem;
+	color: var(--color-ink-muted);
+}
+
+.home-links__arrow {
+	grid-row: 1 / span 2;
+	align-self: center;
+	font-size: 1.25rem;
+	color: var(--color-warm);
+	transition: transform 0.2s ease;
+}
+
+.home-links a:hover .home-links__arrow {
+	transform: translateX(4px);
+}
+
+.sidebar-backdrop {
+	display: none;
+}
+
+@media (max-width: 860px) {
+	.wiki-sidebar {
+		transform: translateX(-100%);
+		transition: transform 0.25s ease;
+		box-shadow: none;
+	}
+
+	body.nav-open .wiki-sidebar {
+		transform: translateX(0);
+		box-shadow: 8px 0 24px rgba(26, 38, 32, 0.12);
+	}
+
+	.wiki-main {
+		margin-left: 0;
+	}
+
+	.wiki-topbar {
+		display: flex;
+	}
+
+	.wiki-content,
+	.wiki-footer {
+		padding-left: var(--space-md);
+		padding-right: var(--space-md);
+	}
+
+	.sidebar-backdrop {
+		display: block;
+		position: fixed;
+		inset: 0;
+		z-index: 30;
+		background: rgba(26, 38, 32, 0.35);
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.2s, visibility 0.2s;
+	}
+
+	body.nav-open .sidebar-backdrop {
+		opacity: 1;
+		visibility: visible;
+	}
+}

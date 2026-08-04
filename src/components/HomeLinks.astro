@@ -1,0 +1,27 @@
+---
+interface Link {
+	href: string;
+	title: string;
+	desc: string;
+}
+
+interface Props {
+	links: Link[];
+}
+
+const { links } = Astro.props;
+---
+
+<ul class="home-links">
+	{
+		links.map((link) => (
+			<li>
+				<a href={link.href}>
+					<span class="home-links__title">{link.title}</span>
+					<p class="home-links__desc">{link.desc}</p>
+					<span class="home-links__arrow" aria-hidden="true">→</span>
+				</a>
+			</li>
+		))
+	}
+</ul>

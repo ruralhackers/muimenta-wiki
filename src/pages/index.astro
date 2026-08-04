@@ -1,0 +1,85 @@
+---
+import WikiLayout from '../layouts/WikiLayout.astro';
+import HomeLinks from '../components/HomeLinks.astro';
+
+const links = [
+	{
+		href: '/como-chegar/',
+		title: 'Como chegar',
+		desc: 'Onde está Muimenta e como orientarte ao chegar á aldea.',
+	},
+	{
+		href: '/casa/convivencia/',
+		title: 'Convivencia',
+		desc: 'Normas claras ao chegar: espazos, ritmo diario e respecto á veciñanza.',
+	},
+	{
+		href: '/casa/espazos/',
+		title: 'Espazos',
+		desc: 'Cociña comunitaria, módulo privado, centro social e coworking.',
+	},
+	{
+		href: '/vida-diaria/comidas/',
+		title: 'Vida diaria',
+		desc: 'Comidas, MuiGastromenta e mobilidade no día a día.',
+	},
+	{
+		href: '/residencias/modelo/',
+		title: 'Residencias',
+		desc: 'Modelo de estadía, anfitrioas locais e expectativas mutuas.',
+	},
+	{
+		href: '/comunidade/',
+		title: 'Comunidade',
+		desc: 'Encontros, dinamización e protocolo de neutralidade operativa.',
+	},
+	{
+		href: '/equipo/',
+		title: 'Equipo e alianzas',
+		desc: 'Quen coordina o proxecto e con quen traballamos.',
+	},
+	{
+		href: '/antes-de-irte/',
+		title: 'Antes de irte',
+		desc: 'Chaves, limpeza, entregables e feedback ao pechar a estadía.',
+	},
+];
+---
+
+<WikiLayout
+	title="O proxecto"
+	description="Wiki de Muimenta Viva: onboarding de residentes e guía do proxecto na aldea."
+>
+	<article class="prose">
+		<h1>Muimenta Viva Wiki</h1>
+		<p class="lede">
+			Todo o que precisas para vivir, crear e convivir aquí — e para entender como funciona o proxecto.
+		</p>
+
+		<p>
+			<strong>Muimenta Viva</strong> é a <strong>fase cero</strong> de activación da aldea de Muimenta
+			(Carballeda de Avia, Ourense). Aínda non é un coliving acabado: son espazos rehabilitados, unha
+			rede que medra e a vontade de facer que a aldea empece a estar viva, con encontros, creación e
+			xente no lugar.
+		</p>
+		<p>
+			A misión desta fase é a <strong>dinamización social, gastronómica e de emprendemento</strong>:
+			activar os espazos, atraer persoas creadoras, tecer rede coa veciñanza e xerar as condicións
+			para que un futuro coliving aldea sexa posible.
+		</p>
+		<p>
+			A coordinación no terreo faise coa persoa conectora (Lucía Fernández Abuchdid) e cos equipos de
+			<strong> Sende Coliving</strong> e <strong>Anceu Coliving</strong>, no marco dun convenio coa
+			Consellería de Emprego e o Concello de Carballeda de Avia.
+		</p>
+
+		<blockquote>
+			<p>
+				Esta wiki é a guía práctica para residentes temporais e para quen queira entender o proxecto
+				sen recorrer a documentos internos.
+			</p>
+		</blockquote>
+
+		<HomeLinks links={links} />
+	</article>
+</WikiLayout>

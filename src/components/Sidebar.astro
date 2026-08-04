@@ -1,0 +1,97 @@
+---
+export interface NavItem {
+	href: string;
+	label: string;
+}
+
+export interface NavGroup {
+	label?: string;
+	items: NavItem[];
+}
+
+export const navGroups: NavGroup[] = [
+	{
+		items: [{ href: '/', label: 'O proxecto' }],
+	},
+	{
+		items: [{ href: '/como-chegar/', label: 'Como chegar' }],
+	},
+	{
+		label: 'Casa',
+		items: [
+			{ href: '/casa/convivencia/', label: 'Convivencia' },
+			{ href: '/casa/espazos/', label: 'Espazos' },
+			{ href: '/casa/limpeza/', label: 'Limpeza' },
+		],
+	},
+	{
+		label: 'Vida diaria',
+		items: [
+			{ href: '/vida-diaria/comidas/', label: 'Comidas' },
+			{ href: '/vida-diaria/muigastromenta/', label: 'MuiGastromenta' },
+			{ href: '/vida-diaria/mobilidade/', label: 'Mobilidade' },
+		],
+	},
+	{
+		label: 'Residencias',
+		items: [
+			{ href: '/residencias/modelo/', label: 'Modelo' },
+			{ href: '/residencias/expectativas/', label: 'Expectativas' },
+		],
+	},
+	{
+		items: [
+			{ href: '/comunidade/', label: 'Comunidade' },
+			{ href: '/equipo/', label: 'Equipo e alianzas' },
+			{ href: '/antes-de-irte/', label: 'Antes de irte' },
+		],
+	},
+];
+
+interface Props {
+	currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+function normalize(path: string) {
+	if (path === '/') return '/';
+	return path.endsWith('/') ? path : `${path}/`;
+}
+
+function isCurrent(href: string, path: string) {
+	return normalize(href) === normalize(path);
+}
+---
+
+<aside class="wiki-sidebar" id="wiki-sidebar" aria-label="Navegación da wiki">
+	<a class="wiki-brand" href="/">
+		Muimenta Viva
+		<span>Wiki</span>
+	</a>
+	<nav class="wiki-nav">
+		{
+			navGroups.map((group) => (
+				<div class="nav-group">
+					{group.label && <p class="nav-group__label">{group.label}</p>}
+					<ul>
+						{group.items.map((item) => (
+							<li>
+								<a
+									href={item.href}
+									aria-current={isCurrent(item.href, currentPath) ? 'page' : undefined}
+								>
+									{item.label}
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			))
+		}
+	</nav>
+	<p class="wiki-sidebar__foot">
+		Carballeda de Avia · Ourense<br />
+		<a href="https://muimentaviva.gal" target="_blank" rel="noopener">muimentaviva.gal</a>
+	</p>
+</aside>
