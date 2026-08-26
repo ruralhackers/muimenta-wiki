@@ -15,6 +15,9 @@ const {
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
+const languageHref = language === 'en'
+	? currentPath.replace(/^\/en(?=\/|$)/, '') || '/'
+	: `/en${currentPath === '/' ? '/' : currentPath}`;
 ---
 
 <!doctype html>
@@ -47,6 +50,12 @@ const currentPath = Astro.url.pathname;
 					</button>
 				</header>
 				<main class="wiki-content">
+					<nav class="language-menu" aria-label={language === 'en' ? 'Choose language' : 'Escolle idioma'}>
+						<span>{language === 'en' ? 'Language' : 'Idioma'}:</span>
+						<a href={language === 'en' ? languageHref : currentPath} aria-current={language === 'gl' ? 'page' : undefined}>Galego</a>
+						<span aria-hidden="true">·</span>
+						<a href={language === 'en' ? currentPath : languageHref} aria-current={language === 'en' ? 'page' : undefined}>English</a>
+					</nav>
 					<slot />
 				</main>
 				<footer class="wiki-footer">

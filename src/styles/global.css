@@ -122,6 +122,25 @@ a:hover {
 .language-switcher a { color: var(--color-ink-muted); text-decoration: none; }
 .language-switcher a[aria-current="page"] { color: var(--color-accent); text-decoration: underline; text-underline-offset: 0.2em; }
 
+.language-menu {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 0.45rem;
+	margin: calc(var(--space-xl) * -0.35) 0 var(--space-lg);
+	font-size: 0.85rem;
+	color: var(--color-ink-muted);
+}
+
+.language-menu a {
+	font-weight: 700;
+	text-underline-offset: 0.2em;
+}
+
+.language-menu a[aria-current="page"] {
+	color: var(--color-accent);
+}
+
 .wiki-nav {
 	flex: 1;
 }
