@@ -50,9 +50,23 @@ export const navGroups: NavGroup[] = [
 
 interface Props {
 	currentPath: string;
+	language?: 'gl' | 'en';
 }
 
-const { currentPath } = Astro.props;
+const { currentPath, language = 'gl' } = Astro.props;
+const isEnglish = language === 'en';
+const labels = isEnglish
+	? { aria: 'Wiki navigation', brand: 'Wiki', project: 'The project', arrive: 'Getting here', groups: ['House', 'Daily life', 'Residencies'], community: 'Community', team: 'Team and partnerships', leave: 'Before you leave', foot: 'Carballeda de Avia · Ourense', publicSite: 'Public website' }
+	: { aria: 'Navegación da wiki', brand: 'Wiki', project: 'O proxecto', arrive: 'Como chegar', groups: ['Casa', 'Vida diaria', 'Residencias'], community: 'Comunidade', team: 'Equipo e alianzas', leave: 'Antes de irte', foot: 'Carballeda de Avia · Ourense', publicSite: 'Web pública' };
+const prefix = isEnglish ? '/en' : '';
+const localizedGroups: NavGroup[] = [
+	{ items: [{ href: `${prefix}/`, label: labels.project }] },
+	{ items: [{ href: `${prefix}/como-chegar/`, label: labels.arrive }] },
+	{ label: labels.groups[0], items: [{ href: `${prefix}/casa/convivencia/`, label: isEnglish ? 'Co-living' : 'Convivencia' }, { href: `${prefix}/casa/espazos/`, label: isEnglish ? 'Spaces' : 'Espazos' }, { href: `${prefix}/casa/limpeza/`, label: isEnglish ? 'Cleaning' : 'Limpeza' }] },
+	{ label: labels.groups[1], items: [{ href: `${prefix}/vida-diaria/comidas/`, label: isEnglish ? 'Food' : 'Comidas' }, { href: `${prefix}/vida-diaria/muigastromenta/`, label: 'MuiGastromenta' }, { href: `${prefix}/vida-diaria/mobilidade/`, label: isEnglish ? 'Getting around' : 'Mobilidade' }] },
+	{ label: labels.groups[2], items: [{ href: `${prefix}/residencias/modelo/`, label: isEnglish ? 'The model' : 'Modelo' }, { href: `${prefix}/residencias/expectativas/`, label: isEnglish ? 'Expectations' : 'Expectativas' }] },
+	{ items: [{ href: `${prefix}/comunidade/`, label: labels.community }, { href: `${prefix}/equipo/`, label: labels.team }, { href: `${prefix}/antes-de-irte/`, label: labels.leave }] },
+];
 
 function normalize(path: string) {
 	if (path === '/') return '/';
@@ -64,14 +78,19 @@ function isCurrent(href: string, path: string) {
 }
 ---
 
-<aside class="wiki-sidebar" id="wiki-sidebar" aria-label="Navegación da wiki">
-	<a class="wiki-brand" href="/">
+<aside class="wiki-sidebar" id="wiki-sidebar" aria-label={labels.aria}>
+	<a class="wiki-brand" href={`${prefix}/`}>
 		Muimenta Viva
-		<span>Wiki</span>
+		<span>{labels.brand}</span>
 	</a>
+	<div class="language-switcher" aria-label={isEnglish ? 'Language' : 'Idioma'}>
+		<a href={isEnglish ? currentPath.replace(/^\/en(?=\/|$)/, '') || '/' : `/en${currentPath === '/' ? '/' : currentPath}`} aria-current={!isEnglish ? 'page' : undefined}>GL</a>
+		<span aria-hidden="true">·</span>
+		<a href={isEnglish ? undefined : `/en${currentPath === '/' ? '/' : currentPath}`} aria-current={isEnglish ? 'page' : undefined}>EN</a>
+	</div>
 	<nav class="wiki-nav">
 		{
-			navGroups.map((group) => (
+			localizedGroups.map((group) => (
 				<div class="nav-group">
 					{group.label && <p class="nav-group__label">{group.label}</p>}
 					<ul>

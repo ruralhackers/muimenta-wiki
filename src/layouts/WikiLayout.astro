@@ -5,18 +5,20 @@ import Sidebar from '../components/Sidebar.astro';
 interface Props {
 	title: string;
 	description?: string;
+	language?: 'gl' | 'en';
 }
 
 const {
 	title,
 	description = 'Wiki de Muimenta Viva: todo o que precisas para vivir, crear e convivir na aldea.',
+	language = 'gl',
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
-<html lang="gl">
+<html lang={language}>
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -34,11 +36,11 @@ const currentPath = Astro.url.pathname;
 	<body>
 		<div class="sidebar-backdrop" data-close-nav aria-hidden="true"></div>
 		<div class="wiki-shell">
-			<Sidebar currentPath={currentPath} />
+			<Sidebar currentPath={currentPath} language={language} />
 			<div class="wiki-main">
 				<header class="wiki-topbar">
-					<a class="wiki-topbar__brand" href="/">Muimenta Viva Wiki</a>
-					<button type="button" class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="wiki-sidebar">
+					<a class="wiki-topbar__brand" href={language === 'en' ? '/en/' : '/'}>Muimenta Viva Wiki</a>
+					<button type="button" class="nav-toggle" aria-label={language === 'en' ? 'Open menu' : 'Abrir menú'} aria-expanded="false" aria-controls="wiki-sidebar">
 						<span class="nav-toggle-bar"></span>
 						<span class="nav-toggle-bar"></span>
 						<span class="nav-toggle-bar"></span>
@@ -49,8 +51,7 @@ const currentPath = Astro.url.pathname;
 				</main>
 				<footer class="wiki-footer">
 					<p>
-						Muimenta Viva · dinamización da aldea en Carballeda de Avia.
-						Coordinación con <strong>Sende Coliving</strong> e <strong>Anceu Coliving</strong>.
+						{language === 'en' ? 'Muimenta Viva · bringing life to the village of Carballeda de Avia. Coordinated with Sende Coliving and Anceu Coliving.' : 'Muimenta Viva · dinamización da aldea en Carballeda de Avia. Coordinación con Sende Coliving e Anceu Coliving.'}
 					</p>
 				</footer>
 			</div>
