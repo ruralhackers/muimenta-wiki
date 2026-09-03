@@ -80,13 +80,16 @@ function isCurrent(href: string, path: string) {
 
 <aside class="wiki-sidebar" id="wiki-sidebar" aria-label={labels.aria}>
 	<a class="wiki-brand" href={`${prefix}/`}>
-		Muimenta Viva
-		<span>{labels.brand}</span>
+		<img src="/logo-muimenta-viva.png" alt="" width="108" height="108" />
+		<span class="wiki-brand__text">
+			Muimenta Viva
+			<span class="wiki-brand__mark">{labels.brand}</span>
+		</span>
 	</a>
 	<div class="language-switcher" aria-label={isEnglish ? 'Language' : 'Idioma'}>
-		<a href={isEnglish ? currentPath.replace(/^\/en(?=\/|$)/, '') || '/' : `/en${currentPath === '/' ? '/' : currentPath}`} aria-current={!isEnglish ? 'page' : undefined}>GL</a>
+		<a href={isEnglish ? currentPath.replace(/^\/en(?=\/|$)/, '') || '/' : currentPath} aria-current={!isEnglish ? 'page' : undefined}>GL</a>
 		<span aria-hidden="true">·</span>
-		<a href={isEnglish ? undefined : `/en${currentPath === '/' ? '/' : currentPath}`} aria-current={isEnglish ? 'page' : undefined}>EN</a>
+		<a href={isEnglish ? currentPath : `/en${currentPath === '/' ? '/' : currentPath}`} aria-current={isEnglish ? 'page' : undefined}>EN</a>
 	</div>
 	<nav class="wiki-nav">
 		{

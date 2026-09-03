@@ -18,7 +18,10 @@ export function getStaticPaths() {
 	return ['como-chegar', 'casa/convivencia', 'casa/espazos', 'casa/limpeza', 'vida-diaria/comidas', 'vida-diaria/mobilidade', 'vida-diaria/muigastromenta', 'residencias/modelo', 'residencias/expectativas', 'comunidade', 'equipo', 'antes-de-irte'].map((slug) => ({ params: { slug } }));
 }
 const page = pages[Astro.params.slug ?? 'como-chegar'] ?? pages['como-chegar'];
+const brand = Astro.params.slug === 'casa/convivencia'
+	? '<p class="page-brand"><img src="/logo-muimenta-viva.png" alt="Muimenta Viva" width="108" height="108" /></p>'
+	: '';
 ---
 <WikiLayout language="en" title={page.title} description={page.description}>
-	<article class="prose" set:html={`<h1>${page.title}</h1>${page.body}`} />
+	<article class="prose" set:html={`${brand}<h1>${page.title}</h1>${page.body}`} />
 </WikiLayout>

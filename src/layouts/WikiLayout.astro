@@ -24,7 +24,8 @@ const languageHref = language === 'en'
 <html lang={language}>
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" href="/logo-muimenta-viva.png" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
@@ -42,7 +43,10 @@ const languageHref = language === 'en'
 			<Sidebar currentPath={currentPath} language={language} />
 			<div class="wiki-main">
 				<header class="wiki-topbar">
-					<a class="wiki-topbar__brand" href={language === 'en' ? '/en/' : '/'}>Muimenta Viva Wiki</a>
+					<a class="wiki-topbar__brand" href={language === 'en' ? '/en/' : '/'}>
+						<img src="/logo-muimenta-viva.png" alt="" width="64" height="64" />
+						Muimenta Viva Wiki
+					</a>
 					<button type="button" class="nav-toggle" aria-label={language === 'en' ? 'Open menu' : 'Abrir menú'} aria-expanded="false" aria-controls="wiki-sidebar">
 						<span class="nav-toggle-bar"></span>
 						<span class="nav-toggle-bar"></span>

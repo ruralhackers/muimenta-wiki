@@ -1,15 +1,15 @@
-/* Muimenta Viva Wiki — tokens e base */
+/* Muimenta Viva Wiki — tokens e base (cor de Instagram @muimenta.viva) */
 :root {
-	--color-bg: #f3efe6;
-	--color-bg-deep: #e8e1d4;
+	--color-bg: #f7f4ee;
+	--color-bg-deep: #efe6c8;
 	--color-surface: #fffef9;
-	--color-ink: #1a2620;
-	--color-ink-muted: #3d4f45;
-	--color-accent: #2f5c45;
-	--color-accent-hover: #244836;
-	--color-accent-soft: #d9e8df;
-	--color-warm: #a65a38;
-	--color-line: #d9d1c3;
+	--color-ink: #111111;
+	--color-ink-muted: #3d3d3d;
+	--color-accent: #f8d838;
+	--color-accent-hover: #e0c122;
+	--color-accent-soft: #fff3b0;
+	--color-warm: #f8d838;
+	--color-line: #ead98a;
 	--font-display: "Fraunces", Georgia, serif;
 	--font-body: "Source Sans 3", system-ui, sans-serif;
 	--space-xs: 0.25rem;
@@ -41,8 +41,8 @@ body {
 	line-height: 1.65;
 	color: var(--color-ink);
 	background:
-		radial-gradient(ellipse 80% 50% at 10% 0%, rgba(47, 92, 69, 0.06), transparent 55%),
-		radial-gradient(ellipse 60% 40% at 100% 20%, rgba(166, 90, 56, 0.05), transparent 50%),
+		radial-gradient(ellipse 80% 50% at 10% 0%, rgba(248, 216, 56, 0.28), transparent 55%),
+		radial-gradient(ellipse 50% 35% at 100% 8%, rgba(248, 216, 56, 0.16), transparent 50%),
 		linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-deep) 100%);
 	background-attachment: fixed;
 	min-height: 100vh;
@@ -50,13 +50,15 @@ body {
 }
 
 a {
-	color: var(--color-accent);
-	text-decoration-thickness: 1px;
-	text-underline-offset: 0.15em;
+	color: var(--color-ink);
+	text-decoration-color: var(--color-accent);
+	text-decoration-thickness: 2px;
+	text-underline-offset: 0.18em;
 }
 
 a:hover {
-	color: var(--color-accent-hover);
+	color: var(--color-ink);
+	text-decoration-thickness: 3px;
 }
 
 :focus-visible {
@@ -87,18 +89,33 @@ a:hover {
 }
 
 .wiki-brand {
-	display: block;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
 	margin: 0 0 var(--space-xl);
 	padding: 0 var(--space-sm);
 	font-family: var(--font-display);
-	font-size: 1.35rem;
+	font-size: 1.2rem;
 	font-weight: 700;
-	line-height: 1.2;
+	line-height: 1.15;
 	color: var(--color-ink);
 	text-decoration: none;
 }
 
-.wiki-brand span {
+.wiki-brand img {
+	display: block;
+	width: 3.4rem;
+	height: 3.4rem;
+	flex-shrink: 0;
+	border-radius: 50%;
+	background: var(--color-accent);
+}
+
+.wiki-brand__text {
+	min-width: 0;
+}
+
+.wiki-brand__mark {
 	display: block;
 	margin-top: 0.15rem;
 	font-family: var(--font-body);
@@ -106,7 +123,7 @@ a:hover {
 	font-weight: 600;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
-	color: var(--color-warm);
+	color: var(--color-ink-muted);
 }
 
 .language-switcher {
@@ -120,7 +137,13 @@ a:hover {
 	letter-spacing: 0.08em;
 }
 .language-switcher a { color: var(--color-ink-muted); text-decoration: none; }
-.language-switcher a[aria-current="page"] { color: var(--color-accent); text-decoration: underline; text-underline-offset: 0.2em; }
+.language-switcher a[aria-current="page"] {
+	color: var(--color-ink);
+	background: var(--color-accent);
+	padding: 0.1em 0.4em;
+	border-radius: 3px;
+	text-decoration: none;
+}
 
 .language-menu {
 	display: flex;
@@ -138,7 +161,11 @@ a:hover {
 }
 
 .language-menu a[aria-current="page"] {
-	color: var(--color-accent);
+	color: var(--color-ink);
+	background: var(--color-accent);
+	padding: 0.05em 0.4em;
+	border-radius: 3px;
+	text-decoration: none;
 }
 
 .wiki-nav {
@@ -176,12 +203,12 @@ a:hover {
 
 .nav-group a:hover {
 	background: var(--color-accent-soft);
-	color: var(--color-accent);
+	color: var(--color-ink);
 }
 
 .nav-group a[aria-current="page"] {
-	background: var(--color-accent-soft);
-	color: var(--color-accent-hover);
+	background: var(--color-accent);
+	color: var(--color-ink);
 	font-weight: 700;
 }
 
@@ -218,10 +245,20 @@ a:hover {
 }
 
 .wiki-topbar__brand {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
 	font-family: var(--font-display);
 	font-weight: 700;
 	color: var(--color-ink);
 	text-decoration: none;
+}
+
+.wiki-topbar__brand img {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	background: var(--color-accent);
 }
 
 .nav-toggle {
@@ -296,6 +333,28 @@ body.nav-open .nav-toggle-bar:nth-child(3) {
 	line-height: 1.2;
 	margin: 0 0 var(--space-md);
 	color: var(--color-ink);
+}
+
+.prose h1::after {
+	content: "";
+	display: block;
+	width: 3.25rem;
+	height: 0.38rem;
+	margin-top: 0.7rem;
+	background: var(--color-accent);
+	border-radius: 2px;
+}
+
+.page-brand {
+	margin: 0 0 var(--space-lg);
+}
+
+.page-brand img {
+	display: block;
+	width: 4.75rem;
+	height: 4.75rem;
+	border-radius: 50%;
+	background: var(--color-accent);
 }
 
 .prose .lede {
@@ -389,7 +448,11 @@ body.nav-open .nav-toggle-bar:nth-child(3) {
 }
 
 .home-links a:hover .home-links__title {
-	color: var(--color-accent);
+	color: var(--color-ink);
+	text-decoration: underline;
+	text-decoration-color: var(--color-accent);
+	text-decoration-thickness: 3px;
+	text-underline-offset: 0.18em;
 }
 
 .home-links__title {
@@ -431,7 +494,7 @@ body.nav-open .nav-toggle-bar:nth-child(3) {
 
 	body.nav-open .wiki-sidebar {
 		transform: translateX(0);
-		box-shadow: 8px 0 24px rgba(26, 38, 32, 0.12);
+		box-shadow: 8px 0 24px rgba(17, 17, 17, 0.12);
 	}
 
 	.wiki-main {
@@ -453,7 +516,7 @@ body.nav-open .nav-toggle-bar:nth-child(3) {
 		position: fixed;
 		inset: 0;
 		z-index: 30;
-		background: rgba(26, 38, 32, 0.35);
+		background: rgba(17, 17, 17, 0.35);
 		opacity: 0;
 		visibility: hidden;
 		transition: opacity 0.2s, visibility 0.2s;
