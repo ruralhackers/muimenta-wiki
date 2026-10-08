@@ -1,22 +1,437 @@
 ---
 import WikiLayout from '../../layouts/WikiLayout.astro';
+import { PENDING } from '../../lib/pending';
+
+const pending = `<strong class="pending">${PENDING}</strong>`;
+
 const pages: Record<string, { title: string; description: string; body: string }> = {
-	'como-chegar': { title: 'Getting here', description: 'How to reach Muimenta and settle in.', body: '<p class="lede">A small village is easier to enjoy when you arrive with a little preparation.</p><h2>Where we are</h2><p>Muimenta is in Carballeda de Avia, Ourense. Check the exact address and arrival details with the project team before travelling.</p><h2>On arrival</h2><ul><li>Let the team know you are on your way.</li><li>Meet the local connector and get an orientation of the spaces.</li><li>Read the co-living and cleaning guidelines before settling in.</li></ul>' },
-	'casa/convivencia': { title: 'Co-living', description: 'Shared life, privacy and a healthy daily rhythm.', body: '<p class="lede">Good co-living is built from small, clear agreements and mutual care.</p><h2>Spaces and privacy</h2><p>Leave private rooms private, ask before photographing people or spaces, and keep noise considerate.</p><h2>Daily rhythm</h2><p>Balance your own work with the life of the village. Join shared moments without assuming everyone has the same schedule.</p><h2>Flexibility and care</h2><p>Say what you need early, listen to others and bring disagreements to the team before they grow.</p>' },
-	'casa/espazos': { title: 'Spaces', description: 'A quick guide to the shared and private spaces.', body: '<p class="lede">Each space has a purpose; using it thoughtfully keeps the village comfortable for everyone.</p><h2>Community kitchen</h2><p>The main space for shared meals, workshops and everyday encounters. Clean as you go.</p><h2>Private module</h2><p>Your quiet, private base. Keep it ventilated and report any issue to the connector.</p><h2>Social centre and coworking</h2><p>The social centre hosts open events; coworking is for focused work. Check availability before planning an activity.</p>' },
-	'casa/limpeza': { title: 'Cleaning', description: 'Simple routines for cared-for shared spaces.', body: '<p class="lede">Leave every shared space at least as ready as you found it.</p><h2>Shared spaces</h2><ul><li>Wash and put away what you used.</li><li>Wipe surfaces and take rubbish to the right place.</li><li>Tell the team about anything that needs repair.</li></ul><h2>Events</h2><p>Agree beforehand who sets up and who closes the space.</p>' },
-	'vida-diaria/comidas': { title: 'Food', description: 'Meals, kitchens and food agreements.', body: '<p class="lede">Food is a way to meet, but shared meals need clear expectations.</p><h2>Basic principle</h2><p>Say whether a meal is shared, individual or an event. Do not assume that everyone eats together every day.</p><h2>Kitchen and pantry</h2><p>Share the space fairly, label personal food and ask before using anything that is not yours.</p>' },
-	'vida-diaria/mobilidade': { title: 'Getting around', description: 'Mobility in the village and its surroundings.', body: '<p class="lede">Muimenta is rural: a little planning makes moving around much easier.</p><h2>In and around the village</h2><p>Walk when you can and ask the connector about local services. Plan trips to nearby towns ahead of time and coordinate shared rides responsibly.</p>' },
-	'vida-diaria/muigastromenta': { title: 'MuiGastromenta', description: 'The project’s food and community format.', body: '<p class="lede">MuiGastromenta uses food as a welcoming doorway into the village.</p><h2>What it is</h2><p>A community cooking and gathering format that brings residents, neighbours and visitors around local food.</p><h2>If you are a resident</h2><p>Join with curiosity, ask before taking photos, and help leave the kitchen and relationships in good shape.</p>' },
-	'residencias/modelo': { title: 'Residency model', description: 'What a Muimenta Viva residency is and is not.', body: '<p class="lede">A residency is a temporary exchange between a person, the village and the project team.</p><h2>What it is (and is not)</h2><p>It is time to create, learn and contribute locally. It is not a tourist stay or a promise that every idea can be delivered immediately.</p><h2>Coordination</h2><p>Keep the connector informed about your plans, visitors, public activities and anything that affects shared spaces.</p>' },
-	'residencias/expectativas': { title: 'Expectations', description: 'What residents and the project can expect from each other.', body: '<p class="lede">Clear expectations make a short stay lighter for everyone.</p><h2>What we expect from you</h2><ul><li>Respect people, spaces and local rhythms.</li><li>Communicate changes early.</li><li>Take part in agreed shared tasks.</li></ul><h2>What you can expect</h2><ul><li>A clear welcome and orientation.</li><li>Access to the agreed spaces and support from the connector.</li></ul>' },
-	'comunidade': { title: 'Community', description: 'How Muimenta Viva builds relationships and a sustainable pace.', body: '<p class="lede">The village comes alive through presence, listening and activities that neighbours can make their own.</p><h2>What we seek</h2><ul><li>Active listening and local participation.</li><li>A sustainable rhythm rather than a saturated calendar.</li><li>Positive impact on nearby businesses and associations.</li></ul><h2>Communication</h2><p>Coordinate public activities with the team and document with consent.</p>' },
-	'equipo': { title: 'Team and partnerships', description: 'Who makes Muimenta Viva possible.', body: '<p class="lede">A small local presence supported by a wider network.</p><h2>On the ground</h2><p>The local connector welcomes residents, links the project with neighbours and keeps daily logistics moving.</p><h2>Coordination</h2><p>Sende and Anceu Coliving coordinate the programme, communications and residency network.</p>' },
-	'antes-de-irte': { title: 'Before you leave', description: 'A closing checklist for your Muimenta Viva stay.', body: '<p class="lede">Close your stay with the same care with which you arrived.</p><h2>Checklist</h2><ul><li>Clean and ventilate the spaces you used.</li><li>Return keys and confirm access with the connector.</li><li>Collect belongings and share agreed files or outputs.</li><li>Confirm permissions for photos, recordings or stories.</li></ul>' },
+	'como-chegar': {
+		title: 'Getting here',
+		description: 'How to reach Muimenta, where to park, and what to bring.',
+		body: `<p class="lede">Muimenta is in Carballeda de Avia, Ourense. Always confirm your arrival time and meeting point with the team.</p>
+<h2>Where we are</h2>
+<p>The project spaces — community kitchen, housing module, social centre and coworking — are in the village itself. For GPS, search <em>Muimenta, Carballeda de Avia</em>. If it is your first time, agree the exact arrival point and the keys with Lucía, the local connector.</p>
+<h2>By car</h2>
+<ul>
+<li>On a residency arrival: unload at the module, then leave the car at the <strong>social centre</strong> or the <strong>palco</strong>.</li>
+<li>For busy <strong>events</strong>, park at the village <strong>water tank</strong> so the centre of the village stays clear.</li>
+</ul>
+<h2>Without a car</h2>
+<p>There is no frequent bus to the door. If you arrive by train or bus, agree a pickup with the team or take a taxi or shared car from the nearest stop. We do not publish a fixed taxi number here until it is confirmed. Write to the team before you travel.</p>
+<h2 id="pack-de-chegada">Arrival pack</h2>
+<p>Bring:</p>
+<ul>
+<li><strong>Shampoo and soap.</strong></li>
+<li><strong>Food</strong>, especially if you arrive outside shop hours.</li>
+<li>An <strong>umbrella</strong>.</li>
+<li>A <strong>swimsuit and a towel</strong> if you want the pool (poza) or the hot springs. Exact places are still open: see <a href="/en/vida-diaria/mobilidade/#lugares">Getting around</a>.</li>
+</ul>
+<h3>Sheets and house towels</h3>
+<p>It is not confirmed whether the house provides sheets and towels. Until the team says so, bring your own: ${pending}</p>
+<h3>Bicycle and animals</h3>
+<ul>
+<li>Whether the project has bicycles, or where to get one: ${pending}</li>
+<li>There are loose dogs in the village. Whether you can bring a pet: ${pending}</li>
+</ul>
+<h2>On arrival</h2>
+<ol>
+<li>Say you are on the way (project WhatsApp / Lucía).</li>
+<li>Unload at the module and park at the social centre or the palco.</li>
+<li>Collect the keys and walk through the spaces.</li>
+<li>First day: shared life, neighbours’ privacy, and the rhythm of the house. Read <a href="/en/casa/convivencia/">Co-living</a> and <a href="/en/casa/espazos/">Spaces</a>.</li>
+</ol>`,
+	},
+	'casa/convivencia': {
+		title: 'Co-living',
+		description: 'First-day agreements, privacy, and the module-visit protocol.',
+		body: `<p class="lede">Clear agreements on arrival: how we share spaces, how we protect neighbours’ privacy, and how the house keeps a healthy rhythm.</p>
+<p>This is the co-living onboarding. We are in an activation phase, with few people here day to day. The agreements still apply — each presence is easy to feel.</p>
+<h2>First-day agreements</h2>
+<p>On the first day we walk through three things, slowly:</p>
+<ul>
+<li><strong>Shared life</strong> — kitchen, time, tasks, and leaving what you used ready for the next person.</li>
+<li><strong>Neighbours’ privacy</strong> — the village is not a set. Do not enter houses, gardens or yards without an explicit invitation.</li>
+<li><strong>The rhythm of the house</strong> — meals are not assumed to be shared, and the village calendar does not bend to your project.</li>
+</ul>
+<p>That day (or on the video call beforehand, if it is not closed yet) we also settle:</p>
+<ul>
+<li>A <strong>concrete project</strong>, not only an intention. You can join what is already happening. Do not impose your agenda on the village. See <a href="/en/residencias/expectativas/">Expectations</a>.</li>
+<li>Who your contact person is, and the coordination channel (project WhatsApp).</li>
+<li><strong>Explicit consent</strong> before publishing photos or videos of people.</li>
+<li>The <a href="#visitas-modulos">module visit protocol</a>.</li>
+<li>Before you commit to visits, workshops or public activities, <strong>check with the team</strong>.</li>
+</ul>
+<blockquote><p>“I will check with the team and get back to you.”</p></blockquote>
+<p>That is the operational-neutrality line. It keeps Sende, Anceu and the connector aligned. Do not take on institutional commitments that are outside the residency.</p>
+<h2 id="visitas-modulos">Visits to the modules</h2>
+<p>Sometimes the rehabilitated module needs to be shown. That happens by protocol, so the building can be seen without breaking privacy. There are no improvised entries into rooms.</p>
+<ul>
+<li>There is <strong>notice beforehand</strong>.</li>
+<li>A <strong>responsible person from the team</strong> opens. The visit always happens with that person.</li>
+<li><strong>You can say no.</strong></li>
+</ul>
+<h2>Spaces and privacy</h2>
+<ul>
+<li>The <strong>community kitchen</strong> is the main place for shared life.</li>
+<li>The <strong>housing module</strong> is private: not for group activities or open visits. See <a href="/en/casa/espazos/">Spaces</a>.</li>
+<li>Respect neighbours. Do not assume you can enter houses, gardens or yards.</li>
+</ul>
+<h2>Daily rhythm</h2>
+<ul>
+<li><strong>Do not assume</strong> every meal is shared. Each person keeps their own rhythm, except for agreed gatherings.</li>
+<li><strong>Shared dinners</strong> can have an agreed frequency (for example twice a week, in the Anceu style). Set that at the start.</li>
+<li>Join everyday tasks in a way that is useful to you and to the neighbours.</li>
+<li>A local host, when there is one, commits in the programme rules to a minimum of 1 hour a week — not daily tasks. Detail in <a href="/en/residencias/modelo/">The model</a>.</li>
+</ul>
+<h2>Image, audio and publishing</h2>
+<ul>
+<li>Ask for <strong>explicit consent</strong> before publishing photos or videos of people. The same applies to audio and to QR content that involves people in the village.</li>
+<li>If someone prefers not to appear, respect that even when it is part of your residency project.</li>
+<li>Public project materials (posters, social channels) include the Xunta / Consellería de Emprego branding when it applies. Ask the team if you are unsure.</li>
+</ul>
+<h2>Flexibility and mutual care</h2>
+<p>We look for flexible people, ready to join collective activities without forcing the village agenda. If something does not fit, say so early to the connector.</p>
+<p>See also: <a href="/en/casa/espazos/">Spaces</a> · <a href="/en/casa/limpeza/">Cleaning</a> · <a href="/en/residencias/expectativas/">Expectations</a> · <a href="/en/como-chegar/#pack-de-chegada">Arrival pack</a>.</p>`,
+	},
+	'casa/espazos': {
+		title: 'Spaces',
+		description: 'Community kitchen, private module, two-storey social centre, and the windowed coworking.',
+		body: `<p class="lede">The rehabilitated buildings have different uses. Using each one for what it is avoids friction.</p>
+<h2>Community kitchen</h2>
+<p>The <strong>main shared space</strong>: gatherings, MuiGastromenta cooking, vermouth, and most of the life between residents, team and neighbours.</p>
+<ul>
+<li>Basic kitchen equipment. Do not assume special tools.</li>
+<li>Leave it clean and tidy.</li>
+<li>Check with Lucía if you need it for a specific activity.</li>
+<li>The large oven and the dishwasher are not for an ordinary day with few people. The rule is in <a href="/en/vida-diaria/comidas/#forno">Food</a>.</li>
+</ul>
+<h2>Tableware</h2>
+<p>Dishes currently move up and down between the community kitchen and the upper floor of the social centre, and pieces go missing in one place or the other. There is not yet a full set on each floor.</p>
+<ul>
+<li>Take tableware from the space where you will use it, and put it back there.</li>
+<li>Do not assume both spaces have enough glasses, cups and plates.</li>
+</ul>
+<p>The team wants a basic duplicated set in the community kitchen and on the upper floor. Until that exists, use the rule above.</p>
+<h2>Housing module</h2>
+<p>The module is a <strong>private</strong> place to rest. It is not for group activities, open visits or workshops.</p>
+<p>If it has to be shown, that follows the <a href="/en/casa/convivencia/#visitas-modulos">visit protocol</a>: notice beforehand, a responsible person from the team, and you can say no.</p>
+<div class="note"><strong>Shower:</strong> water seeps under the tray and the area stays wet, which can cause a smell. Review and repair are a priority for the team. If it gets worse, tell the connector.</div>
+<h2>Social centre</h2>
+<p>This is the <strong>two-storey</strong> building. It is for community events (openings, presentations, public activities). The upper floor is where there is more activity and the larger events. Use is coordinated with the team and, when it applies, with municipal services.</p>
+<h2>Coworking</h2>
+<p>This is the building with the <strong>large windows</strong>. It is for work, small meetings and entrepreneurship activities. Furniture and tableware are still being completed; ask what is actually there when you arrive.</p>
+<div class="note"><strong>Quick map:</strong> shared life and cooking in the community kitchen; rest in the module; open events in the social centre (two floors); work in the coworking (the windows).</div>
+<p>See also: <a href="/en/casa/convivencia/">Co-living</a> · <a href="/en/casa/limpeza/">Cleaning</a> · <a href="/en/vida-diaria/comidas/">Food</a>.</p>`,
+	},
+	'casa/limpeza': {
+		title: 'Cleaning',
+		description: 'Simple routines for cared-for shared spaces.',
+		body: `<p class="lede">Shared spaces work when each person leaves what they used at least as ready as they found it.</p>
+<h2>After using a shared space</h2>
+<ul>
+<li>Wash and put away the community-kitchen tableware.</li>
+<li>Return glasses, cups and plates to the space where you took them (community kitchen or upper floor). There is not yet a duplicated set on each floor.</li>
+<li>Wipe tables and surfaces after workshops or meals.</li>
+<li>Take rubbish to the right bins.</li>
+<li>Do not leave open food that will draw insects or damp.</li>
+</ul>
+<h2>Private module</h2>
+<ul>
+<li>Keep your room livable during the stay.</li>
+<li>When you leave, the module should be clean and aired (see <a href="/en/antes-de-irte/">Before you leave</a>).</li>
+</ul>
+<h2>Events</h2>
+<p>For larger gatherings, cleaning before and after is coordinated with the connector and, if it applies, with municipal support. Do not assume someone else will do it.</p>
+<div class="note"><strong>Damp:</strong> some spaces are sensitive to humidity. Air them with care and report problems (mould, leaks, broken parts). Water seeping under the module shower tray is a known issue: say if it gets worse.</div>`,
+	},
+	'vida-diaria/comidas': {
+		title: 'Food',
+		description: 'Meals, the large oven, and how shopping works.',
+		body: `<p class="lede">Sharing a table is part of life in the village, but it is not a daily obligation. Agree it when you arrive.</p>
+<h2>Basic principle</h2>
+<p><strong>Do not assume</strong> every meal is collective. Each resident organises their own food (temporary residencies are unpaid and board is your own, according to the rules).</p>
+<h2>Agreed dinners and gatherings</h2>
+<ul>
+<li>You can agree a frequency of <strong>shared dinners</strong> (for example twice a week), close to the rhythm of other spaces in the network such as Anceu.</li>
+<li>MuiGastromenta gatherings have their own logic: see <a href="/en/vida-diaria/muigastromenta/">MuiGastromenta</a>.</li>
+<li>At open events, food is coordinated with the team.</li>
+</ul>
+<h2>Community kitchen</h2>
+<p>Use the community kitchen to cook and share. The private module does not replace it for groups. Leave it clean (see <a href="/en/casa/limpeza/">Cleaning</a>) and return tableware to the space where you took it (see <a href="/en/casa/espazos/">Spaces</a>).</p>
+<h2 id="forno">Large oven and dishwasher</h2>
+<p>The large oven is inefficient for everyday cooking. It does not make sense to turn it on for a few people. Keep the large oven for large events. The same rule applies to the dishwasher.</p>
+<p>The everyday alternative — what to use instead of the large oven — is not decided yet: ${pending}</p>
+<h2>Shopping and pantry</h2>
+<ul>
+<li>For day to day, organise your own shopping (nearby towns / local shops).</li>
+<li>If you arrive outside shop hours, bring food. See the <a href="/en/como-chegar/#pack-de-chegada">arrival pack</a>.</li>
+<li>MuiGastromenta workshops have an <strong>operating shopping fund</strong> managed by the connector. It is not a personal pantry.</li>
+<li>Bread and fish days, the nearest supermarket, and home delivery: <a href="/en/vida-diaria/mobilidade/#servizos">Getting around</a>.</li>
+</ul>`,
+	},
+	'vida-diaria/mobilidade': {
+		title: 'Getting around',
+		description: 'Moving around Muimenta, shops, places of interest, and what is still unconfirmed.',
+		body: `<p class="lede">The village is small and walkable. Towns and services need a plan.</p>
+<h2>In the village</h2>
+<ul>
+<li>The project spaces are a short walk apart.</li>
+<li>On arrival for a stay, unload at the module and leave the car at the social centre or the palco. See <a href="/en/como-chegar/">Getting here</a>.</li>
+<li>At events, use the <strong>water tank</strong> car park.</li>
+<li>Respect paths, gardens and private property.</li>
+</ul>
+<h2>Around</h2>
+<p>For shopping, services or trips to Ourense, Ribadavia and other towns, use your own car, a shared car or a taxi. There is no frequent bus to the door.</p>
+<p>If your project involves routes or walks, check the paths with local people before inviting a group — and coordinate it with the team.</p>
+<h2 id="servizos">Shops and services</h2>
+<p>These are not in the wiki yet. Ask the team before you count on them.</p>
+<ul>
+<li><strong>Nearest supermarket:</strong> ${pending}</li>
+<li><strong>Bread and fish days</strong> (where and when): ${pending}</li>
+<li><strong>Home delivery:</strong> ${pending}</li>
+</ul>
+<h2 id="lugares">Places of interest</h2>
+<p>Nearby there is a <strong>pool (poza), hot springs, hórreos (canastros) and fountains</strong>. For the pool or the hot springs, bring a swimsuit and a towel (see the <a href="/en/como-chegar/#pack-de-chegada">arrival pack</a>).</p>
+<p>The specific places, how to get there, and what to know (access, season, care) are not written here yet: ${pending}</p>
+<h2 id="mapa">Mobility and services map</h2>
+<p>There is no map here yet of trips, shops and services. ${pending}</p>
+<h2>Bicycle</h2>
+<p>Whether the project has bicycles is in the <a href="/en/como-chegar/#pack-de-chegada">arrival pack</a> — still unconfirmed.</p>
+<p>See also: <a href="/en/como-chegar/">Getting here</a>.</p>`,
+	},
+	'vida-diaria/muigastromenta': {
+		title: 'MuiGastromenta',
+		description: 'Community cooking gatherings led by neighbours in Muimenta.',
+		body: `<p class="lede">A periodic gathering in the community kitchen: a neighbour proposes and leads a recipe or workshop, and people cook and spend time together with no barrier to entry.</p>
+<h2>What it is</h2>
+<p><strong>MuiGastromenta</strong> takes its spirit from the «café da fresca»: a lively, periodic format for cohesion between neighbours and people from outside. It is not a restaurant and not a formal course. It is cooking and conversation.</p>
+<h2>How it works</h2>
+<ul>
+<li>A <strong>neighbour leads</strong> the recipe or the workshop.</li>
+<li>It happens in the <strong>community kitchen</strong>.</li>
+<li>The connector handles logistics and an <strong>operating shopping fund</strong> for basic ingredients.</li>
+<li>Related supplier invoices are issued to <strong>Sende</strong>.</li>
+</ul>
+<h2>If you are a resident</h2>
+<ul>
+<li>Join when there is a gathering: it is one of the best doors into the community.</li>
+<li>Follow the pace of the person leading. Offer help without taking over.</li>
+<li>Do not publish photos of people without explicit permission.</li>
+</ul>
+<div class="note"><strong>Calendar:</strong> the exact frequency is set on the ground. Ask Lucía what is on during your stay.</div>`,
+	},
+	'residencias/modelo': {
+		title: 'Residency model',
+		description: 'Temporary residencies in the activation phase, and the host’s minimum of 1 hour a week.',
+		body: `<p class="lede">Temporary stays to create and be present in the territory, in the activation phase — distinct from the connector’s role.</p>
+<h2>Activation phase</h2>
+<p>This is not a finished co-living. Few people live here day to day. A one-off profile or an urban practice is not the same as co-living life. There are too few people for this to be a co-living, and too much social mediation for it to be an artistic residency. We are careful with the language so we do not promise what is not yet in place.</p>
+<h2>What it is (and is not)</h2>
+<ul>
+<li><strong>Temporary residencies</strong> are creative stays (usually one or two weeks, depending on the rules and capacity) to develop a project in the place.</li>
+<li>They are <strong>unpaid</strong>, and the frame is different from the project connector, who lives the day to day and holds coordination and communication.</li>
+<li>As an operating rule, we prioritise <strong>one person or group at a time</strong>, according to space and the team’s load.</li>
+</ul>
+<h2>Hosts and mutual learning</h2>
+<p>Each resident can have a <strong>local host</strong>: a neighbour who, depending on the season, invites you to learn real tasks (garden, grape harvest, household knowledge).</p>
+<p>In the programme rules the commitment is a <strong>minimum of 1 hour a week</strong>. It is not “daily tasks”. In practice it is always more, because the relationship happens in daily life — we say it this way so the expectation stays honest. The written minimum is that hour.</p>
+<ul>
+<li>The focus is <strong>practical learning</strong>, not only theory about rural life.</li>
+<li>Neighbours want to share what they know how to do. Respect their time and limits.</li>
+<li>It is an exchange: you bring your craft; they bring the lived territory.</li>
+</ul>
+<h2>Deliverables and care for the territory</h2>
+<ul>
+<li>Work with a <strong>concrete project</strong> and clear deliverables, agreed at the start.</li>
+<li>If your work touches memories, stories or images of people, publish only with <strong>consent</strong>.</li>
+<li>Materials that stay in the village should be respectful and useful for the community.</li>
+</ul>
+<h2>Coordination</h2>
+<p>Residencies are coordinated with the connector and with <strong>Sende</strong> and <strong>Anceu</strong>. Before dates are fixed there is an <a href="/en/residencias/expectativas/">expectations video call</a> (dates, deliverables, and whether the project fits). The team can pace new residencies: dates are not automatic.</p>`,
+	},
+	'residencias/expectativas': {
+		title: 'Expectations',
+		description: 'What the project offers, what it asks, and the video call before the stay.',
+		body: `<p class="lede">Mutual clarity before you arrive: what the project offers, what it asks, and what we close on the video call.</p>
+<p>This is the expectations page. The project is in the <a href="/en/residencias/modelo/">activation phase</a>: read what follows as what is real today, not as the promise of a finished co-living.</p>
+<h2>What the project offers</h2>
+<ul>
+<li><strong>Lodging</strong> in the spaces of the agreement.</li>
+<li><strong>Orientation</strong> on arrival (keys, a walk through the spaces, a contact person).</li>
+<li>A <strong>host</strong>, when there is one: a minimum of 1 hour a week in the rules, not daily tasks. In practice it is always more. See <a href="/en/residencias/modelo/">The model</a>.</li>
+<li><strong>Kitchen and spaces</strong> agreed for living together and working. See <a href="/en/casa/espazos/">Spaces</a>.</li>
+<li>A <strong>coordination channel</strong> with the team (project WhatsApp / Lucía).</li>
+</ul>
+<p>Clear frame: you will not be asked to take on institutional commitments outside the residency. If someone wants a yes in the project’s name, the answer is “I will check with the team and get back to you.”</p>
+<h2>What the project asks</h2>
+<ul>
+<li>A <strong>concrete project</strong>, not only an abstract intention.</li>
+<li>Flexibility to join what is already happening <strong>without imposing an agenda</strong> on the village.</li>
+<li>Respect for the <a href="/en/casa/convivencia/">co-living</a> agreements and the spaces.</li>
+<li>Fluid communication with your contact person.</li>
+<li><strong>Explicit consent</strong> before publishing photos or videos of people.</li>
+<li>Your own board during the stay (according to the call rules).</li>
+<li>The <a href="/en/casa/convivencia/">first-day agreements</a>: shared life, neighbours’ privacy, and the rhythm of the house.</li>
+</ul>
+<h2>Video call beforehand</h2>
+<p>Before dates are closed we do a <strong>video call</strong> to align three things: dates, deliverables, and whether the project fits this phase (compatibility with the house and the village). If something does not fit, say it there.</p>
+<div class="note"><strong>Capacity:</strong> the team can pace new residencies to protect day-to-day stability and to prioritise community events. Dates are not automatic.</div>`,
+	},
+	comunidade: {
+		title: 'Community',
+		description: 'What we usually do, and operational neutrality in Muimenta Viva.',
+		body: `<p class="lede">Bringing the village to life means weaving trust: real gatherings, shared cooking, and a careful presence in the territory.</p>
+<h2>What we seek</h2>
+<p>Muimenta Viva works on <strong>social, gastronomic and entrepreneurial</strong> activation. Gatherings are short, concrete, and meant so neighbours and people from outside meet in the rehabilitated spaces.</p>
+<h2>What we usually do</h2>
+<ul>
+<li><strong>MuiGastromenta</strong> — community cooking led by neighbours (<a href="/en/vida-diaria/muigastromenta/">more</a>).</li>
+<li><strong>Community gatherings</strong> — guided visits, vermouth, workshops and cultural pieces at a human scale.</li>
+<li><strong>Residencies</strong> — a temporary presence that activates spaces and leaves deliverables in the place (<a href="/en/residencias/modelo/">the model</a>).</li>
+<li><strong>Meetings and networking</strong> — with related programmes and networks, always coordinated with the team.</li>
+</ul>
+<h2>Operational neutrality</h2>
+<p>The project keeps an <strong>operational neutrality</strong> toward disputes outside the agreement. Before committing to anything — visits, workshops, deals with third parties — check with the team. The agreed line is:</p>
+<blockquote><p>“I will check with the team and get back to you.”</p></blockquote>
+<p>This protects trust with local people and stops one person from committing the whole (Sende, Anceu, the connector and the institutional frame).</p>
+<h2>Communication</h2>
+<ul>
+<li>Daily channel: project WhatsApp / Lucía.</li>
+<li>Internal documentation: the team’s coordination board.</li>
+<li>Public materials: include Xunta / Consellería de Emprego branding when the event or the poster represents the project.</li>
+</ul>
+<div class="note"><strong>Calendar:</strong> this wiki does not list a live calendar with personal names and dates. For what is on during your stay, ask the connector.</div>`,
+	},
+	equipo: {
+		title: 'Team and partnerships',
+		description: 'Who coordinates Muimenta Viva, and who we work with.',
+		body: `<p class="lede">Who makes things happen on the ground, and who the project is built with.</p>
+<h2>On the ground</h2>
+<ul><li><strong>Lucía Fernández Abuchdid</strong> — connector: day to day in the village, digital communication, bridge with neighbours, and logistics of gatherings.</li></ul>
+<h2>Coordination</h2>
+<ul>
+<li><strong>Sende</strong> — project coordination, operating frame, and part of the administration of events and suppliers.</li>
+<li><strong>Anceu Coliving</strong> — coordination and the residency network / learning from co-living models.</li>
+</ul>
+<h2>Institutional frame and partnerships</h2>
+<ul>
+<li><strong>Consellería de Emprego, Comercio e Emigración</strong> (Xunta de Galicia) — the agreement frame and institutional visibility on public materials.</li>
+<li><strong>Concello de Carballeda de Avia</strong> — host council and local interlocutor for spaces and services.</li>
+<li><strong>Fundación Ría</strong> — a reference in the rehabilitation process and a territorial gaze.</li>
+</ul>
+<p>Working with Sende and Anceu means Muimenta Viva is not an isolated initiative: it is part of a network of spaces that learn from each other.</p>
+<div class="note"><strong>Contact:</strong> for residencies and on-the-ground coordination, write through the channels on the project website, or via the connector once the stay is confirmed.</div>
+<div class="team-only"><p><strong>Team.</strong> Internal follow-up of resident feedback (shower, fridges, tableware, profiles and priorities) is in <a href="/en/equipo/melloras/">Improvements in progress</a>. That page is not the resident guide.</p></div>`,
+	},
+	'equipo/melloras': {
+		title: 'Improvements in progress',
+		description: 'Internal follow-up of resident feedback. Not the guide for people staying in Muimenta.',
+		body: `<div class="team-only"><p><strong>This page is for the team.</strong> It records resident feedback from the document “Mejoras con Mojar” (8 October 2026). It is not the co-living guide. Residents use <a href="/en/casa/convivencia/">Co-living</a>, <a href="/en/casa/espazos/">Spaces</a> and <a href="/en/residencias/expectativas/">Expectations</a>.</p></div>
+<h2>Frame</h2>
+<ul>
+<li>Feedback from conversations with residents, in this activation phase.</li>
+<li>Aim: better shared life, a clearer programme, spaces and infrastructure.</li>
+<li>Premise: we are still building; this is not yet a full co-living.</li>
+</ul>
+<h2>Residency profiles</h2>
+<p>The programme carries a lot of social and mediation weight, because of demand from neighbours. That fits mediation and collaborative practice, and it pulls attention away from a “pure” artistic residency.</p>
+<p>Proposal: diversify profiles, and ideally have several at once (cultural and productive):</p>
+<ul>
+<li><strong>Mediation / collaborative.</strong></li>
+<li><strong>An anthropological gaze.</strong></li>
+<li><strong>Agro / hands-on</strong> — clearing, woodland, territory.</li>
+</ul>
+<div class="note"><strong>Gender observation</strong> (from the feedback, not a rule for residents): cultural activity “gives back” more to women; return toward the men of the village is missing. A male presence drew more men.</div>
+<h2>Module shower</h2>
+<ul>
+<li>Water seeps underneath; a stop is missing.</li>
+<li>Hypothesis from the feedback: silicone is missing on the tray. Not verified.</li>
+<li>The wet area is permanent and may be the source of the smell.</li>
+<li>Action: review and repair, as a priority.</li>
+</ul>
+<p>The resident guide only has a practical note (say if it gets worse), in <a href="/en/casa/espazos/">Spaces</a> and <a href="/en/casa/limpeza/">Cleaning</a>.</p>
+<h2>Kitchen: large oven and dishwasher</h2>
+<ul>
+<li>The large oven is inefficient for everyday use. So is the dishwasher.</li>
+<li>It does not make sense to turn them on for a few people. They are useful above all at large events.</li>
+<li>The use rule (yes for large events, no for an ordinary day with few people) is in <a href="/en/vida-diaria/comidas/#forno">Food</a>.</li>
+<li>The everyday alternative is not chosen yet: ${pending}</li>
+</ul>
+<h2>Fridges and storage (upper floor)</h2>
+<p>A detected need, not equipment that is already there:</p>
+<ul>
+<li><strong>Coworking</strong> (the windowed building): a small fridge.</li>
+<li><strong>Social centre / upper floor</strong> (the two-storey building): a large fridge with a freezer, able to sit inside the cupboards.</li>
+<li>Reason: more activity upstairs and events of 30–60 people.</li>
+<li>More glasses, cups, plates and storage are also needed upstairs.</li>
+</ul>
+<h2>Duplicated tableware</h2>
+<ul>
+<li>Dishes currently go up and down, and pieces are missing in one space or the other.</li>
+<li>Have a basic set duplicated in the community kitchen and on the upper floor.</li>
+</ul>
+<p>The practical note for residents (return tableware to where it was taken) is in <a href="/en/casa/espazos/">Spaces</a>.</p>
+<h2>Priorities</h2>
+<p>The order comes from the feedback. What is already written in the guide is linked; building work and purchases stay open.</p>
+<h3>Now / urgent</h3>
+<ol>
+<li>Repair the module shower and the smell. Building work still open.</li>
+<li>Module visit protocol. Written in <a href="/en/casa/convivencia/#visitas-modulos">Co-living</a>.</li>
+<li>Wiki corrections: coworking = the windows, social centre = two floors, and “What we usually do” instead of “formats that repeat”. Done in the guide. The gathering name stays <strong>MuiGastromenta</strong> (that is how the repo spells it; «café da fresca» was already right). Map and shops still have no data.</li>
+<li>Host expectation (minimum 1 hour a week) and activation phase. Written in <a href="/en/">The project</a>, <a href="/en/residencias/modelo/">The model</a> and <a href="/en/residencias/expectativas/">Expectations</a>.</li>
+</ol>
+<h3>Short term</h3>
+<ol>
+<li>Small fridge in the coworking and large fridge with freezer on the upper floor. Purchase still open.</li>
+<li>Duplicated tableware. Purchase still open.</li>
+<li>Arrival pack and leaving checklist. Written in <a href="/en/como-chegar/#pack-de-chegada">Getting here</a> and <a href="/en/antes-de-irte/">Before you leave</a>. Sheets, towels, bicycle and animals still carry a marker.</li>
+<li>Large-oven use rule. Written in <a href="/en/vida-diaria/comidas/#forno">Food</a>. The everyday alternative is still pending.</li>
+</ol>
+<h3>Medium term / programming</h3>
+<ol>
+<li>Diversify residency profiles: mediation, agro, or mixed.</li>
+<li>Activities that also give something back to the men of the village.</li>
+</ol>
+<p>Back to <a href="/en/equipo/">Team and partnerships</a>.</p>`,
+	},
+	'antes-de-irte': {
+		title: 'Before you leave',
+		description: 'Leaving checklist for the end of a Muimenta Viva stay.',
+		body: `<p class="lede">A short list to close the stay: spaces, keys, deliverables, and how to stay in touch afterwards.</p>
+<h2>Leaving checklist</h2>
+<ol>
+<li><strong>Clean the module and the shared spaces</strong> you used (community kitchen, upper floor, coworking…).</li>
+<li><strong>Return the keys</strong> to the connector or to whoever the team names.</li>
+<li><strong>Hand over the agreed deliverables</strong>, in the format and place you were given.</li>
+<li><strong>Review publications and consent.</strong> Photos and videos of people only with explicit permission.</li>
+<li><strong>Leave brief feedback</strong> — a conversation or a note. It helps the next stay.</li>
+<li><strong>Take your belongings and your food</strong> from the pantry and the rooms.</li>
+<li><strong>Say the exact time you are leaving.</strong></li>
+<li><strong>If you want to stay in touch</strong>, leave a channel agreed with the team, without flooding the neighbours.</li>
+</ol>
+<p>Thank you for inhabiting Muimenta with presence and care. The activation phase is built stay by stay.</p>
+<p>See also: <a href="/en/casa/limpeza/">Cleaning</a> · <a href="/en/casa/convivencia/">Co-living</a>.</p>`,
+	},
 };
+
 export function getStaticPaths() {
-	return ['como-chegar', 'casa/convivencia', 'casa/espazos', 'casa/limpeza', 'vida-diaria/comidas', 'vida-diaria/mobilidade', 'vida-diaria/muigastromenta', 'residencias/modelo', 'residencias/expectativas', 'comunidade', 'equipo', 'antes-de-irte'].map((slug) => ({ params: { slug } }));
+	return [
+		'como-chegar',
+		'casa/convivencia',
+		'casa/espazos',
+		'casa/limpeza',
+		'vida-diaria/comidas',
+		'vida-diaria/mobilidade',
+		'vida-diaria/muigastromenta',
+		'residencias/modelo',
+		'residencias/expectativas',
+		'comunidade',
+		'equipo',
+		'equipo/melloras',
+		'antes-de-irte',
+	].map((slug) => ({ params: { slug } }));
 }
+
 const page = pages[Astro.params.slug ?? 'como-chegar'] ?? pages['como-chegar'];
 const brand = Astro.params.slug === 'casa/convivencia'
 	? '<p class="page-brand"><img src="/logo-muimenta-viva.png" alt="Muimenta Viva" width="108" height="108" /></p>'
