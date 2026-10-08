@@ -40,11 +40,17 @@ export const navGroups: NavGroup[] = [
 		],
 	},
 	{
+		items: [{ href: '/comunidade/', label: 'Comunidade' }],
+	},
+	{
+		label: 'Equipo',
 		items: [
-			{ href: '/comunidade/', label: 'Comunidade' },
 			{ href: '/equipo/', label: 'Equipo e alianzas' },
-			{ href: '/antes-de-irte/', label: 'Antes de irte' },
+			{ href: '/equipo/melloras/', label: 'Melloras en curso' },
 		],
+	},
+	{
+		items: [{ href: '/antes-de-irte/', label: 'Antes de irte' }],
 	},
 ];
 
@@ -56,8 +62,8 @@ interface Props {
 const { currentPath, language = 'gl' } = Astro.props;
 const isEnglish = language === 'en';
 const labels = isEnglish
-	? { aria: 'Wiki navigation', brand: 'Wiki', project: 'The project', arrive: 'Getting here', groups: ['House', 'Daily life', 'Residencies'], community: 'Community', team: 'Team and partnerships', leave: 'Before you leave', foot: 'Carballeda de Avia · Ourense', publicSite: 'Public website' }
-	: { aria: 'Navegación da wiki', brand: 'Wiki', project: 'O proxecto', arrive: 'Como chegar', groups: ['Casa', 'Vida diaria', 'Residencias'], community: 'Comunidade', team: 'Equipo e alianzas', leave: 'Antes de irte', foot: 'Carballeda de Avia · Ourense', publicSite: 'Web pública' };
+	? { aria: 'Wiki navigation', brand: 'Wiki', project: 'The project', arrive: 'Getting here', groups: ['House', 'Daily life', 'Residencies'], community: 'Community', teamGroup: 'Team', team: 'Team and partnerships', improvements: 'Improvements in progress', leave: 'Before you leave', foot: 'Carballeda de Avia · Ourense', publicSite: 'Public website' }
+	: { aria: 'Navegación da wiki', brand: 'Wiki', project: 'O proxecto', arrive: 'Como chegar', groups: ['Casa', 'Vida diaria', 'Residencias'], community: 'Comunidade', teamGroup: 'Equipo', team: 'Equipo e alianzas', improvements: 'Melloras en curso', leave: 'Antes de irte', foot: 'Carballeda de Avia · Ourense', publicSite: 'Web pública' };
 const prefix = isEnglish ? '/en' : '';
 const localizedGroups: NavGroup[] = [
 	{ items: [{ href: `${prefix}/`, label: labels.project }] },
@@ -65,7 +71,15 @@ const localizedGroups: NavGroup[] = [
 	{ label: labels.groups[0], items: [{ href: `${prefix}/casa/convivencia/`, label: isEnglish ? 'Co-living' : 'Convivencia' }, { href: `${prefix}/casa/espazos/`, label: isEnglish ? 'Spaces' : 'Espazos' }, { href: `${prefix}/casa/limpeza/`, label: isEnglish ? 'Cleaning' : 'Limpeza' }] },
 	{ label: labels.groups[1], items: [{ href: `${prefix}/vida-diaria/comidas/`, label: isEnglish ? 'Food' : 'Comidas' }, { href: `${prefix}/vida-diaria/muigastromenta/`, label: 'MuiGastromenta' }, { href: `${prefix}/vida-diaria/mobilidade/`, label: isEnglish ? 'Getting around' : 'Mobilidade' }] },
 	{ label: labels.groups[2], items: [{ href: `${prefix}/residencias/modelo/`, label: isEnglish ? 'The model' : 'Modelo' }, { href: `${prefix}/residencias/expectativas/`, label: isEnglish ? 'Expectations' : 'Expectativas' }] },
-	{ items: [{ href: `${prefix}/comunidade/`, label: labels.community }, { href: `${prefix}/equipo/`, label: labels.team }, { href: `${prefix}/antes-de-irte/`, label: labels.leave }] },
+	{ items: [{ href: `${prefix}/comunidade/`, label: labels.community }] },
+	{
+		label: labels.teamGroup,
+		items: [
+			{ href: `${prefix}/equipo/`, label: labels.team },
+			{ href: `${prefix}/equipo/melloras/`, label: labels.improvements },
+		],
+	},
+	{ items: [{ href: `${prefix}/antes-de-irte/`, label: labels.leave }] },
 ];
 
 function normalize(path: string) {
